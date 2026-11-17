@@ -1454,14 +1454,13 @@ body {
   --tw: min(330px, 86vw, calc((100svh - var(--header-h) - 250px) * 0.78));
   position: relative;
   width: var(--tw);
-  padding: 11px;
-  border-radius: 30px;
-  background: linear-gradient(145deg, #3a322d, #1a120d 45%, #2c2622);
+  padding: 6px;
+  border-radius: 26px;
+  background: linear-gradient(160deg, #3a322d, #241b16);
   box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.1),
-    inset 0 0 0 5px #120c09,
-    0 40px 70px -30px rgba(44, 38, 34, 0.55),
-    0 14px 26px -18px rgba(44, 38, 34, 0.35);
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 36px 64px -32px rgba(44, 38, 34, 0.5),
+    0 10px 22px -16px rgba(44, 38, 34, 0.3);
 }
 .tscene__device::before {
   content: "";
@@ -1471,6 +1470,7 @@ body {
   background: radial-gradient(closest-side, rgba(201, 144, 111, 0.28), rgba(201, 144, 111, 0));
 }
 .tscene__cam {
+  display: none;
   position: absolute;
   top: 4px;
   left: 50%;
@@ -1487,6 +1487,18 @@ body {
   border-radius: 20px;
   background: var(--gray-50);
   overflow: hidden;
+}
+/* resumo estático (movimento reduzido): mesma moldura fina */
+.tdash__device {
+  padding: 6px;
+  border-radius: 26px;
+  background: linear-gradient(160deg, #3a322d, #241b16);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 34px 60px -30px rgba(44, 38, 34, 0.5);
+}
+.tdash__cam {
+  display: none;
 }
 .tscene__top {
   display: flex;
