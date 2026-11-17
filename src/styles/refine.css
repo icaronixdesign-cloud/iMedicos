@@ -604,3 +604,376 @@
     transition: none;
   }
 }
+
+/* ============================================ FAQ: só o item aberto é arredondado */
+.faq-item {
+  border-radius: 0;
+}
+.faq-item[data-open="true"] {
+  border-radius: var(--r-3);
+}
+
+/* ==========================================================================
+ * Mobile — composição centralizada e ritmo vertical único
+ * Títulos, chapéus e descrições centralizados; conteúdo de leitura (cartões,
+ * listas, perguntas) segue alinhado à esquerda dentro de blocos centrados.
+ * Ritmo: seção 72 · chapéu→título 14 · título→descrição 14 · cabeçalho→conteúdo 32.
+ * ========================================================================== */
+@media (max-width: 639px) {
+  :root {
+    --section-y: 72px;
+  }
+
+  /* Chapéu centralizado: filete curto acima do texto (funciona em 1 ou 2 linhas) */
+  .hat {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    max-width: 30ch;
+    text-align: center;
+    font-size: 0.75rem;
+    line-height: 1.45;
+    letter-spacing: 0.14em;
+    text-wrap: balance;
+  }
+  .hat::before {
+    width: 28px;
+    height: 1.5px;
+  }
+
+  /* Cabeçalhos de seção */
+  .section-head {
+    gap: 14px;
+    justify-items: center;
+    text-align: center;
+    margin-inline: auto;
+  }
+  .section-head .lead,
+  .hero__lead,
+  .overview__lead {
+    text-wrap: balance;
+    max-width: 34ch;
+    font-size: 1.0625rem;
+    line-height: 1.6;
+  }
+
+  /* ---------- Abertura */
+  .hero {
+    padding-top: calc(var(--header-h) + 28px);
+    padding-bottom: 56px;
+  }
+  .hero__copy {
+    justify-items: center;
+    text-align: center;
+    gap: 18px;
+  }
+  .hero__title {
+    margin-inline: auto;
+    font-size: clamp(2rem, 9.2vw, 2.75rem);
+  }
+  .hero__copy .btn-row {
+    width: 100%;
+    margin-top: 6px;
+    gap: 10px;
+  }
+  .hero__checks {
+    display: grid;
+    justify-items: center;
+    gap: 6px;
+    margin-top: 2px;
+    text-align: center;
+  }
+  .hero__checks li {
+    display: block;
+    max-width: 34ch;
+    text-wrap: balance;
+  }
+  .hero__checks svg {
+    display: inline-block;
+    vertical-align: -3px;
+    margin-right: 6px;
+  }
+  .hero__grid {
+    gap: 40px;
+  }
+
+  /* ---------- Visão geral */
+  .overview {
+    padding-top: var(--section-y);
+  }
+  .overview__head {
+    justify-items: center;
+    gap: 14px;
+  }
+  .overview__lead {
+    justify-self: center;
+    text-align: center;
+  }
+  .overview__grid {
+    margin-top: 28px;
+  }
+  .overview__label {
+    text-align: center;
+  }
+  .overview__proposal {
+    justify-items: center;
+    text-align: center;
+  }
+  .overview__cta {
+    justify-self: center;
+  }
+
+  /* ---------- Pesquisa Saúde */
+  .mapping__top {
+    gap: 32px;
+  }
+  .mapping__steps {
+    margin-top: 24px;
+  }
+
+  /* ---------- Jornada */
+  .journey__intro {
+    gap: 24px;
+  }
+  .journey__aside {
+    justify-items: center;
+    margin-inline: auto;
+    width: 100%;
+  }
+  .journey__skip {
+    display: inline-block;
+    max-width: 30ch;
+    min-height: 44px;
+    padding-block: 10px;
+    text-align: center;
+    text-wrap: balance;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+  .journey__skip svg {
+    display: inline-block;
+    vertical-align: -3px;
+    margin-left: 6px;
+  }
+  .journey--stepper .journey__track {
+    padding-top: 32px;
+  }
+  .journey--stepper .journey__counter {
+    justify-content: center;
+  }
+  .journey--stepper .journey__bar {
+    flex: none;
+    width: 96px;
+  }
+  .journey--stepper .jstep {
+    justify-items: center;
+    text-align: center;
+    gap: 10px;
+  }
+  .journey--stepper .jstep__title {
+    max-width: none;
+    font-size: 1.625rem;
+  }
+  .journey--stepper .jstep__text {
+    font-size: 1rem;
+    line-height: 1.6;
+    max-width: 34ch;
+    text-wrap: balance;
+  }
+  .journey--stepper .journey__detail {
+    align-self: stretch;
+    margin-top: -4px;
+  }
+  .journey--stepper .jd {
+    justify-items: center;
+    text-align: center;
+  }
+  .journey--stepper .jd__tags {
+    justify-content: center;
+  }
+  .journey--stepper .jd__more {
+    width: 100%;
+    max-width: 320px;
+    text-align: center;
+  }
+  .journey--stepper .jd__more .jd__list {
+    display: inline-grid;
+    text-align: left;
+  }
+
+  /* ---------- Empresa e mapa */
+  .cm-company .container {
+    gap: 20px;
+  }
+  .cm-map {
+    padding-top: 48px;
+  }
+  .cm-map__grid {
+    gap: 24px;
+  }
+  .cm-map__copy {
+    justify-items: center;
+    text-align: center;
+    gap: 20px;
+  }
+  .cm-map__visual .map-legend {
+    text-align: left;
+  }
+
+  /* ---------- Três indicadores */
+  .charts {
+    padding-top: 48px;
+  }
+  .charts__head {
+    flex-direction: column;
+    justify-content: center;
+    gap: 12px;
+    text-align: center;
+    padding-bottom: 20px;
+  }
+  .charts__head .h4 {
+    text-wrap: balance;
+  }
+
+  /* ---------- Educação */
+  .edu--carousel .container,
+  .edu--stack .container {
+    gap: 28px;
+  }
+  .edu__intro {
+    gap: 24px;
+    justify-items: center;
+    text-align: center;
+  }
+  .edu__themes {
+    display: grid;
+    justify-items: center;
+  }
+  .edu__themes ul {
+    justify-content: center;
+  }
+  .edu__scope {
+    max-width: 34ch;
+    padding: 0;
+    border: 0;
+    text-wrap: balance;
+  }
+
+  /* ---------- Dúvidas */
+  .faq__grid {
+    gap: 32px;
+  }
+  .faq-item__q {
+    font-size: 1.0625rem;
+  }
+  .faq__aside {
+    justify-items: center;
+    text-align: center;
+    padding: 28px 22px;
+  }
+  .faq__aside-text {
+    max-width: 22ch;
+  }
+  .faq__aside {
+    padding: 28px 18px;
+  }
+  .faq__aside-btn {
+    width: 100%;
+    gap: 8px;
+    padding-inline: 12px;
+    font-size: 0.875rem;
+    white-space: nowrap;
+  }
+  .ev-bar > span:nth-child(2) {
+    flex: 1;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .ev-bar__count {
+    white-space: nowrap;
+  }
+
+  /* ---------- Credenciais */
+  .creds {
+    padding-top: 40px;
+  }
+  .creds__grid {
+    gap: 28px;
+  }
+  .creds__context {
+    padding: 22px;
+    text-align: center;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+  .creds__context::before {
+    display: none;
+  }
+  .creds__foot {
+    text-align: center;
+    margin-inline: auto;
+  }
+
+  /* ---------- CTA final */
+  .cta {
+    padding-top: 8px;
+  }
+  .cta__panel {
+    padding: 44px 22px 40px;
+  }
+  .cta__copy {
+    justify-items: center;
+    text-align: center;
+    gap: 18px;
+    margin-inline: auto;
+  }
+  .cta__title {
+    margin-inline: auto;
+    text-wrap: balance;
+  }
+  .cta__lead {
+    font-size: 1.0625rem;
+    text-wrap: balance;
+  }
+  .cta__actions {
+    width: 100%;
+    gap: 10px;
+  }
+  .cta__support {
+    font-size: 1.125rem;
+    text-wrap: balance;
+  }
+  .cta__contacts {
+    justify-content: center;
+    margin-top: -6px;
+  }
+
+  /* ---------- Rodapé */
+  .footer__top {
+    justify-items: center;
+    text-align: center;
+  }
+  .footer__brand {
+    justify-items: center;
+  }
+  .footer__nav {
+    width: 100%;
+    max-width: 320px;
+  }
+  .footer__nav a {
+    justify-content: center;
+    width: 100%;
+  }
+  .footer__contact {
+    justify-items: center;
+  }
+  .footer__bottom {
+    flex-direction: column-reverse;
+    justify-content: center;
+    gap: 16px;
+    text-align: center;
+  }
+}
