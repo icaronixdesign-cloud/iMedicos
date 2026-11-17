@@ -6,6 +6,7 @@ import { easeInOut, range, useSceneMode } from "@/lib/hooks";
 import { BarChart, LineChart, ProportionChart } from "./Charts";
 import { Laptop } from "./Laptop";
 import { BrazilMapStatic } from "./BrazilMapStatic";
+import { TabletDash } from "./TabletDash";
 import type { Map3D } from "./map3d";
 import { RailDots } from "../RailDots";
 
@@ -276,6 +277,9 @@ function Flow({ svg }: { svg: string }) {
           </div>
           <div className="cm-company__laptop reveal">
             <Laptop />
+          </div>
+          <div className="cm-company__tablet reveal">
+            <TabletDash />
           </div>
         </div>
       </section>
