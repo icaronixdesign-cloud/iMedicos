@@ -189,10 +189,31 @@
     background: var(--gray-50);
   }
 }
-.faq-item.is-open .faq-item__q {
+/* item aberto vira um cartão suave, sem perder o ritmo da lista */
+.faq-item {
+  border-radius: var(--r-3);
+  transition:
+    background-color var(--dur-3) var(--ease-out),
+    box-shadow var(--dur-3) var(--ease-out),
+    border-color var(--dur-2);
+}
+.faq-item[data-open="true"] {
+  margin-inline: -20px;
+  padding-inline: 20px;
+  background: linear-gradient(180deg, #fff 0%, var(--gray-50) 100%);
+  border-bottom-color: transparent;
+  box-shadow: var(--sh-card);
+}
+.faq-item:has(+ .faq-item[data-open="true"]) {
+  border-bottom-color: transparent;
+}
+.faq-item__a p {
+  padding-bottom: var(--s-4);
+}
+.faq-item[data-open="true"] .faq-item__q {
   color: var(--primary-dark);
 }
-.faq-item.is-open .faq-item__num {
+.faq-item[data-open="true"] .faq-item__num {
   color: var(--primary);
 }
 
@@ -568,6 +589,10 @@
   }
   .faq__aside {
     outline-offset: -8px;
+  }
+  .faq-item[data-open="true"] {
+    margin-inline: -12px;
+    padding-inline: 12px;
   }
   .cta__panel {
     outline-offset: -10px;

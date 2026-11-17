@@ -29,7 +29,7 @@ export function Faq() {
           {FAQ.items.map((it, i) => {
             const isOpen = open === i;
             return (
-              <li key={it.q} className={`faq-item reveal ${isOpen ? "is-open" : ""}`} style={{ ["--d" as string]: `${i * 60}ms` }}>
+              <li key={it.q} className="faq-item reveal" data-open={isOpen} style={{ ["--d" as string]: `${i * 60}ms` }}>
                 <h3 className="faq-item__h">
                   <button
                     type="button"

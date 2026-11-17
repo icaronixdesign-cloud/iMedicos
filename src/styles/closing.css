@@ -105,7 +105,7 @@
   width: 18px;
   height: 18px;
 }
-.faq-item.is-open .faq-item__icon {
+.faq-item[data-open="true"] .faq-item__icon {
   transform: rotate(180deg);
   background: var(--primary-dark);
   border-color: var(--primary-dark);
@@ -116,7 +116,7 @@
   grid-template-rows: 0fr;
   transition: grid-template-rows var(--dur-3) var(--ease-out);
 }
-.faq-item.is-open .faq-item__a {
+.faq-item[data-open="true"] .faq-item__a {
   grid-template-rows: 1fr;
 }
 .faq-item__a > div {
