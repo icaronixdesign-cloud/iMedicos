@@ -131,31 +131,37 @@ export const JOURNEY = {
   steps: [
     {
       title: "Responder à triagem",
+      short: "Perguntas sobre sono, humor e ansiedade identificam fatores de risco emocional.",
       text: "Perguntas sobre sono, humor e ansiedade ajudam a identificar fatores de risco emocional.",
       screen: "Na tela: o “Questionário de Saúde Mental” aberto, com uma resposta ilustrativa selecionada e a barra de progresso avançando.",
     },
     {
       title: "Receber o resultado",
+      short: "Após análise, o resultado vai para o e-mail do próprio colaborador.",
       text: "Após análise qualificada, o resultado da triagem é enviado ao e-mail do próprio colaborador.",
       screen: "Na tela: uma notificação abre a caixa de entrada com um trecho de e-mail marcado como exemplo fictício.",
     },
     {
       title: "Escolher um psicólogo",
+      short: "Profissional, dia e horário escolhidos no Saúde24h, conforme o programa.",
       text: "O colaborador escolhe o psicólogo, o dia e o horário entre as opções disponíveis no Saúde24h, conforme o programa contratado.",
       screen: "Na tela: um perfil de psicóloga ilustrativo e a agenda com um horário disponível em destaque.",
     },
     {
       title: "Entrar na consulta",
+      short: "Pelo app ou por link enviado por SMS ou WhatsApp.",
       text: "A sessão acontece pelo app ou pelo link enviado por SMS ou WhatsApp.",
       screen: "Na tela: o agendamento confirmado muda para a videochamada.",
     },
     {
       title: "Consultar o plano de cuidado",
+      short: "Plano individual na plataforma, com assinatura digital e PDF.",
       text: "O plano individual fica disponível na plataforma, com assinatura digital do profissional e opção de exportar em PDF.",
       screen: "Na tela: “Minhas consultas”, o histórico e o documento do plano de cuidado em destaque.",
     },
     {
       title: "Encontrar apoio a qualquer hora",
+      short: "Acolhimento 24h pelo 0800. Consultas com psicólogo em horário agendado.",
       text: "A equipe de saúde oferece acolhimento pelo 0800, 24 horas por dia. A assistente virtual Medy orienta o acesso aos serviços. As consultas com psicólogo têm horário agendado.",
       screen: "Na tela: a tela inicial com “Ligar para Central” em destaque e uma conversa ilustrativa com a Medy.",
     },

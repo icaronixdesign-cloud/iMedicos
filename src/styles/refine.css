@@ -977,3 +977,157 @@
     text-align: center;
   }
 }
+
+/* ==========================================================================
+ * Jornada no celular — cena por rolagem (como no desktop)
+ * Aparelho fixo no centro; cada trecho de rolagem avança uma etapa: a tela do
+ * app desliza para o lado e o texto curto da etapa sobe abaixo do aparelho.
+ * ========================================================================== */
+.jstep__short {
+  display: none;
+}
+.journey--mscene .journey__track {
+  padding: 0;
+}
+.journey--mscene .journey__stage {
+  padding-top: var(--header-h);
+  align-items: stretch;
+}
+.journey--mscene .journey__grid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  height: 100%;
+  padding-block: 16px 20px;
+}
+.journey--mscene .journey__text {
+  display: contents;
+}
+.journey--mscene .perspective-chip,
+.journey--mscene .journey__controls,
+.journey--mscene .journey__now,
+.journey--mscene .journey__detail {
+  display: none;
+}
+
+/* Contador no topo */
+.journey--mscene .journey__counter {
+  order: 1;
+  justify-content: center;
+  max-width: none;
+  gap: 12px;
+}
+.journey--mscene .journey__count {
+  font-size: 1.375rem;
+}
+.journey--mscene .journey__bar {
+  flex: none;
+  width: 88px;
+}
+
+/* Aparelho no centro */
+.journey--mscene .journey__device {
+  order: 2;
+  gap: 10px;
+}
+.journey--mscene .phone {
+  --pw: min(236px, 62vw, calc((100svh - var(--header-h) - 300px) / 2.06));
+}
+.journey--mscene .journey__glow {
+  inset: 4% -30%;
+}
+.journey--mscene .journey__demo {
+  font-size: 11px;
+}
+
+/* Telas do app deslizam para o lado */
+.journey--mscene .phone__layer {
+  opacity: 1;
+  transform: translateX(104%);
+  transition: transform 720ms var(--ease-out);
+}
+.journey--mscene .phone__layer.is-past {
+  transform: translateX(-104%);
+}
+.journey--mscene .phone__layer.is-active {
+  transform: none;
+}
+
+/* Texto da etapa: título + frase curta, subindo a cada passo */
+.journey--mscene .journey__steps {
+  order: 3;
+  width: 100%;
+  max-width: 340px;
+  min-height: 0;
+}
+.journey--mscene .jstep {
+  justify-items: center;
+  gap: 6px;
+  text-align: center;
+  transform: translateY(28px);
+}
+.journey--mscene .jstep.is-past {
+  transform: translateY(-28px);
+}
+.journey--mscene .jstep.is-active {
+  transform: none;
+}
+.journey--mscene .jstep__title {
+  max-width: none;
+  font-size: 1.5rem;
+  line-height: 1.2;
+}
+/* o texto completo segue disponível para leitores de tela */
+.journey--mscene .jstep__text {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+.journey--mscene .jstep__short {
+  display: block;
+  max-width: 32ch;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--gray-700);
+  text-wrap: balance;
+}
+
+/* ==========================================================================
+ * Fundo contínuo — sem quebras entre seções
+ * Um único tom de página; cada seção é transparente e os brilhos decorativos
+ * se dissolvem antes das bordas (nenhum gradiente termina cortado).
+ * ========================================================================== */
+:root {
+  --canvas: #faf8f6;
+}
+html,
+body {
+  background: var(--canvas);
+}
+.overview,
+.mapping,
+.cm,
+.faq,
+.cta,
+.creds {
+  background: transparent;
+}
+.hero__bg {
+  background:
+    radial-gradient(56% 60% at 84% 32%, rgba(238, 229, 222, 0.9) 0%, rgba(238, 229, 222, 0) 70%),
+    linear-gradient(180deg, #ffffff 0%, var(--canvas) 78%);
+}
+.journey {
+  background: radial-gradient(50% 36% at 70% 46%, rgba(238, 229, 222, 0.7), rgba(238, 229, 222, 0) 70%);
+}
+.edu {
+  background: radial-gradient(56% 42% at 78% 54%, rgba(238, 229, 222, 0.85), rgba(238, 229, 222, 0) 70%);
+}
+.creds__bg {
+  background: radial-gradient(38% 44% at 74% 52%, rgba(223, 209, 198, 0.7), rgba(223, 209, 198, 0) 72%);
+}

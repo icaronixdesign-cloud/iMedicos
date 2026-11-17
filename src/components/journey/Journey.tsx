@@ -2,7 +2,7 @@
 
 import { useCallback, useRef, useState } from "react";
 import { JOURNEY } from "@/content/site";
-import { scrollTrackTo, useReducedMotion, useSceneMode, useTrackProgress } from "@/lib/hooks";
+import { scrollTrackTo, useMediaQuery, useReducedMotion, useSceneMode, useTrackProgress } from "@/lib/hooks";
 import { ArrowDown, ArrowLeft, ArrowRight } from "../Icons";
 import { PhoneFrame } from "./PhoneScreens";
 
@@ -61,8 +61,11 @@ const DETAILS: React.ReactNode[] = [
 ];
 
 export function Journey() {
-  const scene = useSceneMode();
+  const desktopScene = useSceneMode();
   const reduced = useReducedMotion();
+  // Celular em pé: mesma narrativa por rolagem, com o aparelho fixo no centro da tela
+  const mobileScene = useMediaQuery("(max-width: 719px) and (min-height: 560px)", false) && !reduced;
+  const scene = desktopScene || mobileScene;
   const [step, setStep] = useState(0);
   const track = useRef<HTMLDivElement>(null);
   const touch = useRef<number | null>(null);
@@ -98,7 +101,7 @@ export function Journey() {
   return (
     <section
       id="experiencia"
-      className={`journey ${scene ? "journey--scene" : "journey--stepper"}`}
+      className={`journey ${scene ? "journey--scene" : "journey--stepper"} ${mobileScene ? "journey--mscene" : ""}`}
       aria-labelledby="journey-title"
     >
       <div className="container journey__intro">
@@ -130,7 +133,7 @@ export function Journey() {
       <div
         ref={track}
         className="journey__track"
-        style={scene ? { height: `${N * 80 + 100}vh` } : undefined}
+        style={scene ? { height: `${N * (mobileScene ? 62 : 80) + 100}vh` } : undefined}
       >
         <div className="journey__stage">
           <div className="container journey__grid">
@@ -167,6 +170,9 @@ export function Journey() {
                       {s.title}
                     </h3>
                     <p className="body-3 jstep__text">{s.text}</p>
+                    <p className="jstep__short" aria-hidden="true">
+                      {s.short}
+                    </p>
                     <p className="sr-only">{s.screen}</p>
                   </li>
                 ))}

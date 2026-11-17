@@ -13,7 +13,12 @@ export function MobileCta() {
 
   useEffect(() => {
     const hero = document.getElementById("inicio");
-    const end = [document.getElementById("contato"), document.querySelector("footer")].filter(Boolean) as Element[];
+    // some no CTA final, no rodapé e durante a demonstração do app (cena imersiva)
+    const end = [
+      document.getElementById("contato"),
+      document.querySelector("footer"),
+      document.querySelector("#experiencia .journey__track"),
+    ].filter(Boolean) as Element[];
     if (!hero) return;
     const state = { heroIn: true, endIn: false };
     const seen = new Map<Element, boolean>();
