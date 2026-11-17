@@ -1,0 +1,581 @@
+/*
+ * Camada de refinamento — aplica a linguagem do visual da abertura (superfícies
+ * com filete e luz no topo, grão, moldura interna, movimento discreto) às demais
+ * seções, e reorganiza a estrutura no mobile. Carregada por último.
+ */
+
+:root {
+  --hair: rgba(92, 44, 23, 0.07);
+  --sh-card:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 1px 2px rgba(44, 38, 34, 0.04),
+    0 24px 48px -32px rgba(44, 38, 34, 0.32);
+  --sh-card-hover:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 2px 4px rgba(44, 38, 34, 0.04),
+    0 36px 64px -32px rgba(44, 38, 34, 0.38);
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .36 0 0 0 0 .2 0 0 0 0 .12 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ============================================ Superfícies unificadas */
+.pillar,
+.step-card,
+.report-card,
+.invite-card,
+.chart-card,
+.jd,
+.journey__note,
+.creds__context,
+.overview__brands,
+.edu-card,
+.roles__item {
+  border-color: var(--hair);
+  box-shadow: var(--sh-card);
+}
+.report-card,
+.edu-card.is-active {
+  box-shadow: var(--sh-card-hover);
+}
+.overview__brands {
+  background: linear-gradient(180deg, #fff 0%, var(--gray-50) 100%);
+}
+/* hover com a propriedade translate (a revelação usa transform) */
+.step-card,
+.chart-card,
+.js .step-card.reveal,
+.js .chart-card.reveal {
+  transition:
+    opacity var(--dur-3) var(--ease-out) var(--d, 0ms),
+    transform var(--dur-3) var(--ease-out) var(--d, 0ms),
+    translate var(--dur-3) var(--ease-out),
+    box-shadow var(--dur-3) var(--ease-out),
+    border-color var(--dur-2);
+}
+@media (hover: hover) {
+  .step-card:hover,
+  .chart-card:hover {
+    translate: 0 -3px;
+    box-shadow: var(--sh-card-hover);
+    border-color: var(--secondary);
+  }
+}
+
+/* Ícones em círculo com luz, como nos cartões da abertura */
+.step-card__icon,
+.pillar__icon,
+.edu-card__icon,
+.hero-card__icon {
+  background: linear-gradient(145deg, #f7f0ea, #ead9cc);
+  box-shadow: inset 0 0 0 1px rgba(140, 74, 43, 0.08);
+}
+.pillar__icon {
+  background: #fff;
+  box-shadow:
+    inset 0 0 0 1px rgba(140, 74, 43, 0.06),
+    0 14px 28px -14px rgba(44, 38, 34, 0.35);
+}
+
+/* ============================================ Quem é quem: três colunas iguais */
+.roles {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px 28px;
+}
+.roles__item {
+  align-content: start;
+}
+.roles__item + .roles__item::before {
+  width: 28px;
+}
+.roles__item span {
+  line-height: 16px;
+}
+
+/* ============================================ Painéis em tom areia: grão + moldura */
+.overview__proposal,
+.faq__aside,
+.cta__panel {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  outline: 1px solid rgba(255, 255, 255, 0.6);
+  outline-offset: -10px;
+}
+.cta__panel {
+  outline-offset: -14px;
+}
+.overview__proposal::after,
+.faq__aside::after,
+.cta__panel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: var(--grain);
+  opacity: 0.28;
+  mix-blend-mode: multiply;
+}
+.pillar__top {
+  isolation: isolate;
+}
+.pillar__top::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: var(--grain);
+  opacity: 0.3;
+  mix-blend-mode: multiply;
+}
+.pillar__verb,
+.pillar__num {
+  position: relative;
+}
+
+/* Luz percorrendo o topo dos pilares no hover */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .pillar__top::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(105deg, rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, 0.45) 50%, rgba(255, 255, 255, 0) 70%);
+    transform: translateX(-100%);
+    transition: transform 1.1s var(--ease-out);
+    pointer-events: none;
+  }
+  .pillar:hover .pillar__top::before {
+    transform: translateX(100%);
+  }
+}
+
+/* CTA: luz que respira e marca com flutuação lenta */
+@media (prefers-reduced-motion: no-preference) {
+  .cta__glow {
+    animation: cta-glow 12s var(--ease-in-out) infinite alternate;
+  }
+  .cta__mark {
+    animation: cta-mark 14s var(--ease-in-out) infinite;
+  }
+}
+@keyframes cta-glow {
+  to {
+    translate: -6% 4%;
+    opacity: 0.85;
+  }
+}
+@keyframes cta-mark {
+  0%,
+  100% {
+    rotate: 0deg;
+    scale: 1;
+  }
+  50% {
+    rotate: -2deg;
+    scale: 1.02;
+  }
+}
+
+/* ============================================ FAQ: leitura e foco */
+.faq-item__h button {
+  padding-inline: 12px;
+  margin-inline: -12px;
+  width: calc(100% + 24px);
+  border-radius: var(--r-2);
+  transition: background-color var(--dur-2);
+}
+@media (hover: hover) {
+  .faq-item__h button:hover {
+    background: var(--gray-50);
+  }
+}
+.faq-item.is-open .faq-item__q {
+  color: var(--primary-dark);
+}
+.faq-item.is-open .faq-item__num {
+  color: var(--primary);
+}
+
+/* ============================================ Carrossel com indicador (mobile) */
+.rail-dots {
+  display: none;
+  justify-content: center;
+  gap: 2px;
+  margin-top: 4px;
+}
+.rail-dots__dot {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 32px;
+}
+.rail-dots__dot span {
+  width: 7px;
+  height: 7px;
+  border-radius: 8px;
+  background: var(--gray-300);
+  transition:
+    width var(--dur-2) var(--ease-out),
+    background-color var(--dur-2);
+}
+.rail-dots__dot.is-on span {
+  width: 22px;
+  background: var(--primary);
+}
+
+/* ============================================ Barra de ação fixa (mobile) */
+.mcta {
+  display: none;
+}
+
+/* ============================================ Mobile e tablet */
+@media (max-width: 1023px) {
+  /* FAQ: título → perguntas → contato */
+  .faq__head {
+    display: contents;
+  }
+  .faq__head > .section-head {
+    order: 1;
+  }
+  .faq__list {
+    order: 2;
+  }
+  .faq__aside {
+    order: 3;
+  }
+
+  /* Credenciais: título → contexto → indicadores → nota */
+  .creds__copy {
+    display: contents;
+  }
+  .creds__copy > .section-head {
+    order: 1;
+  }
+  .creds__context {
+    order: 2;
+  }
+  .orbit {
+    order: 3;
+  }
+  .creds__foot {
+    order: 4;
+  }
+  .creds__grid {
+    gap: var(--s-4);
+  }
+}
+
+@media (max-width: 899px) {
+  /* Visão geral: as três frentes viram um carrossel com espiada do próximo cartão */
+  .overview__grid {
+    display: flex;
+    gap: 12px;
+    margin-inline: calc(var(--gutter) * -1);
+    padding: 8px var(--gutter) 20px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+  .overview__grid::-webkit-scrollbar {
+    display: none;
+  }
+  .overview__grid > li {
+    flex: 0 0 min(82%, 360px);
+    scroll-snap-align: start;
+  }
+  .overview__grid + .rail-dots {
+    display: flex;
+  }
+  .overview__foot {
+    margin-top: var(--s-4);
+  }
+}
+
+@media (max-width: 767px) {
+  /* Pesquisa: etapas em linha do tempo compacta */
+  .mapping__steps {
+    gap: 10px;
+    margin-top: var(--s-5);
+  }
+  .mapping__steps::before {
+    left: 38px;
+    top: 44px;
+    bottom: 44px;
+  }
+  .step-card {
+    grid-template-columns: 36px 1fr;
+    column-gap: 14px;
+    row-gap: 4px;
+    padding: 18px 18px 18px 20px;
+  }
+  .step-card__top {
+    grid-row: span 2;
+    justify-content: flex-start;
+  }
+  .step-card__icon {
+    display: none;
+  }
+  .step-card__num {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--secondary-light);
+    color: var(--primary-dark);
+    font-size: 0.875rem;
+  }
+  .step-card .h5 {
+    font-size: 1.125rem;
+    line-height: 1.35;
+  }
+  .step-card p {
+    font-size: 0.9375rem;
+    line-height: 1.55;
+  }
+
+  /* Barra de ação fixa */
+  .mcta {
+    position: fixed;
+    z-index: 45;
+    left: 12px;
+    right: 12px;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    display: flex;
+    gap: 8px;
+    padding: 8px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.84);
+    -webkit-backdrop-filter: blur(16px) saturate(1.4);
+    backdrop-filter: blur(16px) saturate(1.4);
+    border: 1px solid rgba(255, 255, 255, 0.95);
+    box-shadow:
+      0 0 0 1px rgba(92, 44, 23, 0.06),
+      0 18px 40px -16px rgba(44, 38, 34, 0.45);
+    opacity: 0;
+    transform: translateY(140%);
+    transition:
+      transform 0.5s var(--ease-out),
+      opacity 0.3s var(--ease-out);
+  }
+  .mcta.is-on {
+    opacity: 1;
+    transform: none;
+  }
+  .mcta__main {
+    flex: 1;
+    min-height: 48px;
+    padding-inline: 16px;
+  }
+  .mcta__call {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    flex: none;
+    border-radius: var(--r-1);
+    border: 1px solid var(--line-strong);
+    background: #fff;
+    color: var(--primary-dark);
+  }
+  .mcta__call svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* Rodapé mais compacto */
+  .footer {
+    padding-top: var(--s-8);
+  }
+  .footer__top {
+    grid-template-columns: 1fr;
+    gap: var(--s-4);
+    padding-bottom: var(--s-5);
+  }
+  .footer__nav ul {
+    grid-template-columns: 1fr 1fr;
+    column-gap: var(--s-3);
+  }
+  .footer__contact a {
+    word-break: break-word;
+  }
+}
+
+@media (max-width: 719px) {
+  /* Jornada: aparelho fixo no topo, controles logo abaixo (zona do polegar), texto e detalhe depois */
+  .journey--stepper .journey__grid {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+  }
+  .journey--stepper .journey__text {
+    display: contents;
+  }
+  .journey--stepper .journey__counter {
+    order: 1;
+    max-width: none;
+  }
+  .journey--stepper .journey__device {
+    order: 2;
+  }
+  .journey--stepper .journey__controls {
+    order: 3;
+    justify-content: center;
+  }
+  .journey--stepper .journey__steps {
+    order: 4;
+  }
+  .journey--stepper .journey__detail {
+    order: 5;
+  }
+  .journey--stepper .phone {
+    --pw: min(248px, 64vw);
+  }
+  .journey--stepper .journey__glow {
+    inset: 0 -10%;
+  }
+  .journey--stepper .journey__detail {
+    margin-top: -8px;
+  }
+  .journey--stepper .jd {
+    gap: 10px;
+    padding: 0;
+    background: none;
+    border: 0;
+    box-shadow: none;
+  }
+  .journey--stepper .jd__title {
+    display: none;
+  }
+
+  /* Credenciais: quatro indicadores principais no celular */
+  .orbit__pill:nth-child(n + 5) {
+    display: none;
+  }
+
+  /* Educação: controles abaixo dos cartões */
+  .edu--carousel .edu__list {
+    order: 2;
+  }
+  .edu--carousel .edu-controls {
+    order: 3;
+    justify-content: center;
+  }
+  .edu--carousel .edu-controls__track {
+    display: none;
+  }
+}
+
+@media (max-width: 679px) {
+  /* Três indicadores: carrossel */
+  .charts__grid {
+    display: flex;
+    gap: 12px;
+    margin-inline: calc(var(--gutter) * -1);
+    padding: 4px var(--gutter) 20px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+  .charts__grid::-webkit-scrollbar {
+    display: none;
+  }
+  .charts__grid > li {
+    flex: 0 0 min(86%, 340px);
+    scroll-snap-align: start;
+  }
+  .charts__grid + .rail-dots {
+    display: flex;
+  }
+  .charts__head {
+    margin-bottom: var(--s-3);
+  }
+}
+
+@media (max-width: 639px) {
+  .section-head {
+    gap: var(--s-2);
+  }
+  /* Abertura: visual mais baixo, ação comercial mais perto */
+  .hv {
+    width: 84%;
+    max-width: 300px;
+  }
+  .hero__grid {
+    gap: var(--s-6);
+  }
+  /* Empresa: no celular, os três indicadores ficam no carrossel de gráficos (sem repetir o painel) */
+  .cm--flow .cm-company__laptop {
+    display: none;
+  }
+  .cm--flow .cm-company {
+    padding-bottom: var(--s-2);
+  }
+  /* Mapa: só a legenda; os rótulos de região não agregam no celular */
+  .cm--flow .regions {
+    display: none;
+  }
+  /* Quem é quem: uma linha por marca, nome à esquerda e papel à direita */
+  .roles {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .roles__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 12px 14px;
+  }
+  .roles__item + .roles__item::before {
+    display: none;
+  }
+  .roles__item b {
+    flex: none;
+    font-size: 1rem;
+  }
+  .roles__item span {
+    font-size: 12px;
+    line-height: 16px;
+    text-align: right;
+    max-width: 22ch;
+  }
+  .overview__text {
+    font-size: 0.9375rem;
+  }
+  .pillar__top {
+    height: 104px;
+    padding: var(--s-2) var(--s-3);
+  }
+  .pillar__icon {
+    top: 78px;
+    right: var(--s-3);
+    width: 52px;
+    height: 52px;
+  }
+  .pillar__body {
+    padding: var(--s-4) var(--s-3) var(--s-3);
+  }
+  .pillar__link {
+    padding-inline: var(--s-3);
+  }
+  .faq__aside {
+    outline-offset: -8px;
+  }
+  .cta__panel {
+    outline-offset: -10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mcta {
+    transition: none;
+  }
+}
