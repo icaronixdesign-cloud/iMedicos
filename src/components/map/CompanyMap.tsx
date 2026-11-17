@@ -2,11 +2,12 @@
 
 import { useEffect, useRef, useState } from "react";
 import { COMPANY, INDICATORS, MAP } from "@/content/site";
-import { easeInOut, range, useSceneMode } from "@/lib/hooks";
+import { easeInOut, range, useMediaQuery, useReducedMotion, useSceneMode } from "@/lib/hooks";
 import { BarChart, LineChart, ProportionChart } from "./Charts";
 import { Laptop } from "./Laptop";
 import { BrazilMapStatic } from "./BrazilMapStatic";
 import { TabletDash } from "./TabletDash";
+import { TabletScene } from "./TabletScene";
 import type { Map3D } from "./map3d";
 import { RailDots } from "../RailDots";
 
@@ -263,6 +264,10 @@ function MapCopy({ lit, all = false }: { lit: number; all?: boolean }) {
 /* ------------------------------------------------- Fluxo (mobile, reduzido, sem WebGL) */
 
 function Flow({ svg }: { svg: string }) {
+  // celular em pé com movimento liberado: tablet fixo, uma tela por indicador
+  const phonePortrait = useMediaQuery("(max-width: 639px) and (min-height: 560px)", false);
+  const reduced = useReducedMotion();
+  const tabletScene = phonePortrait && !reduced;
   return (
     <>
       <section className="section cm-company" aria-labelledby="company-title">
@@ -278,10 +283,13 @@ function Flow({ svg }: { svg: string }) {
           <div className="cm-company__laptop reveal">
             <Laptop />
           </div>
-          <div className="cm-company__tablet reveal">
-            <TabletDash />
-          </div>
+          {!tabletScene && (
+            <div className="cm-company__tablet reveal">
+              <TabletDash />
+            </div>
+          )}
         </div>
+        {tabletScene && <TabletScene />}
       </section>
       <section id="indicadores" className="section cm-map" aria-labelledby="map-title">
         <div className="container cm-map__grid">

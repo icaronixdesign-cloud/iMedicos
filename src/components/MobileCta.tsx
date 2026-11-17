@@ -18,6 +18,7 @@ export function MobileCta() {
       document.getElementById("contato"),
       document.querySelector("footer"),
       document.querySelector("#experiencia .journey__track"),
+      document.querySelector(".cm-company"),
     ].filter(Boolean) as Element[];
     if (!hero) return;
     const state = { heroIn: true, endIn: false };
